@@ -1,12 +1,17 @@
 package com.camel.Customers.routes;
 
+import com.camel.Customers.processor.CustomersProcessor;
 import com.camel.Customers.utility.CustomerMapper;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.dataformat.csv.CsvDataFormat;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CustomersRoute extends RouteBuilder {
+
+    @Autowired
+    CustomersProcessor processor;
 
     @Override
     public void configure() {
@@ -19,7 +24,7 @@ public class CustomersRoute extends RouteBuilder {
                 .unmarshal(csv)
                 .split(body())
                 .bean(CustomerMapper.class)
-                .log("Parsed POJO: ${body}")
+                .process(processor)
                 .end();
     }
 
