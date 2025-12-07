@@ -16,16 +16,21 @@ public class CustomersProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
         Customer customer = exchange.getIn().getBody(Customer.class);
-        System.out.println("Customer Index: " + customer.getIndex());
-        System.out.println("Customer First name: " + customer.getFirstName());
-        System.out.println("Customer Last Name: " + customer.getLastName());
-        System.out.println("\n\n");
 
         // Map to DB Customer Model
         com.camel.Customers.db.models.Customer dbCustomer = new com.camel.Customers.db.models.Customer();
         dbCustomer.setIndex(customer.getIndex());
+        dbCustomer.setCustomerId(customer.getId());
         dbCustomer.setFirstName(customer.getFirstName());
         dbCustomer.setLastName(customer.getLastName());
+        dbCustomer.setCompany(customer.getCompany());
+        dbCustomer.setCity(customer.getCity());
+        dbCustomer.setCountry(customer.getCountry());
+        dbCustomer.setPhone1(customer.getPhone1());
+        dbCustomer.setPhone2(customer.getPhone2());
+        dbCustomer.setEmail(customer.getEmail());
+        dbCustomer.setSubscriptionDate(customer.getSubscriptionDate());
+        dbCustomer.setWebsite(customer.getWebsite());
 
         // Call Repository.save()
         repository.save(dbCustomer);
