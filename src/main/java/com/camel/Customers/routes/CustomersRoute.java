@@ -25,7 +25,8 @@ public class CustomersRoute extends RouteBuilder {
                 .split(body())
                 .bean(CustomerMapper.class)
                 .process(processor)
-                .end();
+                .end()
+                .log("Finished Processing Customer Records");
     }
 
 }
